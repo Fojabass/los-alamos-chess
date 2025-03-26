@@ -1,0 +1,6 @@
+- (8 points) Correctly displays a 6x6 chess board with all pieces in their starting positions
+- (4 points) The game state is properly managed, keeping track of turns and check/checkmate/stalemate conditions
+- (10 points) The player is able to select pieces, move them, and capture opposing pieces according to Los Alamos chess rules
+- (6 points) Chess moves are correctly validated for legal/illegal moves without error
+- (12 points) A computer opponent exists that is able to evaluate the board and make legal moves
+- (2 points) Code is properly formatted and commented, with reasonable variable names
