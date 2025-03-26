@@ -1,25 +1,32 @@
 import pygame
+import sys
+from src.board import Board
 
-pygame.init()
-screen = pygame.display.set_mode((1280,720))
-clock = pygame.time.Clock()
-running = True
-delta = 0
+def main():
+    SCREEN_WIDTH = 1280
+    SCREEN_HEIGHT = 720
 
-pygame.display.set_caption("Los Alamos Chess")
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    running = True
+    delta = 0
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    pygame.display.set_caption("Los Alamos Chess")
+    board = Board(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    screen.fill("purple")
-    pygame.display.flip()
-    delta = clock.tick(60) / 1000
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-pygame.quit()
+        board.draw()
+        delta = clock.tick(60) / 1000
 
+    pygame.quit()
 
+if __name__ == "__main__":
+    main() # Only execute main() if this file is run directly
     
 
     
