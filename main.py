@@ -1,27 +1,16 @@
-SIZE: int = 6
-board = [[0] * SIZE] * SIZE
+import pygame
 
-class Piece(Enum):
-    Null = 0,
-    Pawn = 1,
-    Rook = 2,
-    Knight = 3,
-    King = 4,
-    Queen = 5
+pygame.init()
+screen = pygame.display.set_mode((1280,720))
+clock = pygame.time.Clock()
+running = True
 
-def main():
-    initialize_board()
-    print(board)
+while running:
+    for event in pygame.event.get():
+        pass
 
-def initialize_board():
-    for i in range(SIZE):
-        main_piece: int = Piece(((i + 1) % 4))
-        board[0][i] = main_piece
-        board[1][i] = Piece.Pawn
-        board[5][i] = Piece.Pawn
-        board[6][i] = main_piece
-
-    
+    screen.fill("purple")
+    pygame.display.flip()
 
 
     
