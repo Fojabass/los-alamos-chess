@@ -1,5 +1,7 @@
+# main.py:
+# Author: Julien Devol
+
 import pygame
-import sys
 from src.board import Board
 
 def main():
@@ -13,7 +15,7 @@ def main():
     delta = 0
 
     pygame.display.set_caption("Los Alamos Chess")
-    board = Board(SCREEN_WIDTH, SCREEN_HEIGHT)
+    board = Board(screen)
 
     while running:
         for event in pygame.event.get():
