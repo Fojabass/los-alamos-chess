@@ -56,8 +56,19 @@ class Board:
         color = 'b' if row < 2 else 'w'
         piece_type = None
 
+        # Temporary way of selecting piece types
         if row == 1 or row == 4:
             piece_type = "pawn"
+        else:
+            if col == 0 or col == 5:
+                piece_type = "rook"
+            if col == 1 or col == 4:
+                piece_type = "knight"
+            if col == 2:
+                piece_type = "queen"
+            if col == 3:
+                piece_type = "king"
+
 
         square.piece = Piece(color, piece_type, self.screen, square)
 
