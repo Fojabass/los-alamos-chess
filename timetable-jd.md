@@ -8,3 +8,4 @@
 | `6:00`    | Sunday  | 3/30/2025| Looked through a few PyGame video tutorials
 | `7:00`    | Monday  | 4/7/2025 | Added chess piece assets & worked on the layered hierarchy of Board -> Square -> Piece
 | `8:00`    | Tuesday | 4/8/2025 | Overhauled the classes to be less closely coupled
+| `9:00`    | Tuesday | 4/8/2025 | Got pieces to render and scale themselves to fit their parent Square
