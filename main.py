@@ -22,6 +22,19 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                clicked_square = board.getSquareAt(pos)
+
+                if clicked_square:
+                    print(f"Row: {clicked_square.row}, Col: {clicked_square.col}")
+            
+            if event.type == pygame.MOUSEBUTTONUP:
+                pass
+
+            if event.type == pygame.MOUSEWHEEL:
+                pass
+
         board.draw()
         delta = clock.tick(60) / 1000
 

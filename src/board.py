@@ -1,5 +1,5 @@
 # board.py:
-# Author: Julien Devol
+# Author: 
 
 import pygame
 from typing import List, Tuple, Optional
@@ -49,6 +49,18 @@ class Board:
 
         pygame.display.flip()
 
+    # getSquareAt(): Get a reference to the square underneath the current mouse_pos
+    def getSquareAt(self, mouse_pos_xy: Tuple[float, float]) -> 'Square':
+        row = int((mouse_pos_xy[1] - Board.margin_xy[1]) // self.square_size)
+        col = int((mouse_pos_xy[0] - Board.margin_xy[0]) // self.square_size)
+
+        is_in_boundaries: bool = (0 <= row < DIMENSIONS) and (0 <= col < DIMENSIONS)
+        if is_in_boundaries:
+            return self.squares[row][col]
+        
+        return None
+
+    # initializePiece(): Initializes pieces in their default positions
     def initializePiece(self, square: 'Square', row: int, col: int):
         if 2 <= row <= 3:
             return # No pieces in the middle two rows
@@ -68,7 +80,6 @@ class Board:
                 piece_type = "queen"
             if col == 3:
                 piece_type = "king"
-
 
         square.piece = Piece(color, piece_type, self.screen, square)
 
@@ -92,15 +103,26 @@ class Square:
         if self.piece is not None:
             self.piece.draw()
 
+    # getPosition(): Returns the x, y position of this square
+    #                I would like to move this logic and just *store* an x, y value
     def getPosition(self) -> Tuple[float, float]:
         margin_xy = Board.margin_xy
         x = self.size * self.col + margin_xy[0]
         y = self.size * self.row + margin_xy[1]
         return (x, y)
+    
+    # select(): Highlight this square
+    def select():
+        pass
+
+    # unselect(): Unhighlight this square
+    def unselect():
+        pass
 
 class Piece:
     SCALE_MODIFIER = 0.8
 
+    # __init__(): 
     def __init__(self, color, type, screen, square) -> None:
         self.parent: 'Square' = square
         self.color: Tuple[int, int, int] = color
@@ -109,6 +131,7 @@ class Piece:
         self.loadSprite()
         self.draw(screen)
 
+    # draw(): 
     def draw(self, screen) -> None:
         if self.type is None or self.sprite is None:
             return
@@ -121,6 +144,7 @@ class Piece:
         piece_y = square_pos[1] + (square_size - self.sprite.get_height()) / 2
         screen.blit(self.sprite, (piece_x, piece_y))
 
+    # loadSprite(): Loads a sprite to represent this Piece
     def loadSprite(self) -> None:
         if self.type is None:
             return
