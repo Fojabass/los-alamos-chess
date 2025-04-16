@@ -11,12 +11,13 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    running = True
-    delta = 0
+    running: bool = True
+    delta: float = 0
 
     pygame.display.set_caption("Los Alamos Chess")
     board = Board(screen)
-
+    board.draw()
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -25,9 +26,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 clicked_square = board.getSquareAt(pos)
-
-                if clicked_square:
-                    print(f"Row: {clicked_square.row}, Col: {clicked_square.col}")
+                clicked_square.select() 
             
             if event.type == pygame.MOUSEBUTTONUP:
                 pass
@@ -35,7 +34,6 @@ def main():
             if event.type == pygame.MOUSEWHEEL:
                 pass
 
-        board.draw()
         delta = clock.tick(60) / 1000
 
     pygame.quit()
