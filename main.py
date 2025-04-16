@@ -20,19 +20,15 @@ def main():
     
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+            match(event.type):
+                case pygame.QUIT:
+                    running = False
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                clicked_square = board.getSquareAt(pos)
-                clicked_square.select() 
-            
-            if event.type == pygame.MOUSEBUTTONUP:
-                pass
-
-            if event.type == pygame.MOUSEWHEEL:
-                pass
+                case pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    clicked_square = board.getSquareAt(pos)
+                    if clicked_square:
+                        clicked_square.select()
 
         delta = clock.tick(60) / 1000
 

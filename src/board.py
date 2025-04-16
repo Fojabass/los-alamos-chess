@@ -88,7 +88,7 @@ class Board:
         square.piece = Piece(color, piece_type, self.screen, square)
 
 class Square:
-    selected: 'Square' = None # The currently selected piece
+    current_selected: 'Square' = None # The currently selected piece
 
     # __init__(): Constructor
     def __init__(self, row: int, col: int, size, color) -> None:
@@ -125,27 +125,32 @@ class Square:
         self.x = self.size * self.col + Board.margin_xy[0]
         self.y = self.size * self.row + Board.margin_xy[1]
     
-    # select(): Highlight this square
+    # select(): Select this square
     def select(self):
-        if Square.selected == self:
+        if Square.current_selected == self:
                 self.unselect()
                 return
         
-        if Square.selected is not None:
-            swapped = Square.selected.piece
-            Square.selected.piece = self.piece
-            self.piece = swapped
-            Square.selected.draw()
-            self.draw()
-            print("swapped")
+        if Square.current_selected is None:
+            Square.current_selected = self
+            print(f"Square at ({self.row} {self.col}) has been selected!")
+        else:
+            swapped_piece = Square.current_selected.piece
+            Square.current_selected.piece = self.piece
+            self.piece = swapped_piece
 
-        Square.selected = self
-        print(f"Square at ({self.row} {self.col}) has been selected!")
+            Square.current_selected.draw()
+            self.draw()
+            print("A swap has occurred.")
+            print(self.piece)
+            print(Square.current_selected.piece)
+            self.unselect()
+
         Board.update_display()
 
-    # unselect(): Unhighlight this square
+    # unselect(): Unselect this square
     def unselect(self):
-        Square.selected = None
+        Square.current_selected = None
         print(f"Square at ({self.row} {self.col}) has been unselected.")
 
 class Piece:
