@@ -1,5 +1,5 @@
 # board.py:
-# Author: 
+# Author: Julien Devol
 
 import pygame
 from typing import List, Tuple, Optional
@@ -41,15 +41,19 @@ class Board:
             for col in range(DIMENSIONS):
                 is_even = (row + col) % 2 == 0
                 color = self.WHITE if is_even else self.BLACK
-                new_square: Square = Square(self.square_size, row, col, color)
+                new_square: Square = Square(row, col, self.square_size, color)
                 self.initializePiece(new_square, row, col)
                 square_row.append(new_square)
         
             self.squares.append(square_row)
+            Board.update_display()
 
+    # update_display(): Refreshes the display to show changes
+    def update_display() -> None:
         pygame.display.flip()
 
     # getSquareAt(): Get a reference to the square underneath the current mouse_pos
+    #                TODO: Change the way this is calculated now that Squares have (x,y) coords
     def getSquareAt(self, mouse_pos_xy: Tuple[float, float]) -> 'Square':
         row = int((mouse_pos_xy[1] - Board.margin_xy[1]) // self.square_size)
         col = int((mouse_pos_xy[0] - Board.margin_xy[0]) // self.square_size)
@@ -84,40 +88,65 @@ class Board:
         square.piece = Piece(color, piece_type, self.screen, square)
 
 class Square:
+    selected: 'Square' = None # The currently selected piece
+
     # __init__(): Constructor
-    def __init__(self, size, row: int, col: int, color) -> None:
+    def __init__(self, row: int, col: int, size, color) -> None:
+        self.x: float = 0
+        self.y: float = 0
+        self.size = size
         self.row: int = row
         self.col: int = col
-        self.size = size
         self.color: Tuple[int, int, int] = color
         self.piece: Optional[Piece] = None
-        self.is_selected: bool = False
         
-        self.draw(color)
+        self.updatePosition()
+        self.draw()
         
-    # draw(): Draws a single square to the screen at the specified coordinates
-    def draw(self, color) -> None:
-        pos_xy = self.getPosition()
+    # draw(): Draws a square to the screen at the specified coordinates
+    def draw(self) -> None:
+        screen = pygame.display.get_surface()
 
-        pygame.draw.rect(pygame.display.get_surface(), color, (pos_xy[0], pos_xy[1], self.size, self.size))
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
         if self.piece is not None:
-            self.piece.draw()
+            self.piece.draw(screen)
 
-    # getPosition(): Returns the x, y position of this square
-    #                I would like to move this logic and just *store* an x, y value
-    def getPosition(self) -> Tuple[float, float]:
-        margin_xy = Board.margin_xy
-        x = self.size * self.col + margin_xy[0]
-        y = self.size * self.row + margin_xy[1]
-        return (x, y)
+    # setPiece()
+    def setPiece(self, piece: Optional["Piece"]) -> None:
+        self.piece = piece
+        self.draw()
+
+    # getPiece()
+    def getPiece(self):
+        return self.piece
+
+    # updatePosition(): Updates the x, y position of this square
+    def updatePosition(self) -> None:
+        self.x = self.size * self.col + Board.margin_xy[0]
+        self.y = self.size * self.row + Board.margin_xy[1]
     
     # select(): Highlight this square
-    def select():
-        pass
+    def select(self):
+        if Square.selected == self:
+                self.unselect()
+                return
+        
+        if Square.selected is not None:
+            swapped = Square.selected.piece
+            Square.selected.piece = self.piece
+            self.piece = swapped
+            Square.selected.draw()
+            self.draw()
+            print("swapped")
+
+        Square.selected = self
+        print(f"Square at ({self.row} {self.col}) has been selected!")
+        Board.update_display()
 
     # unselect(): Unhighlight this square
-    def unselect():
-        pass
+    def unselect(self):
+        Square.selected = None
+        print(f"Square at ({self.row} {self.col}) has been unselected.")
 
 class Piece:
     SCALE_MODIFIER = 0.8
@@ -131,17 +160,15 @@ class Piece:
         self.loadSprite()
         self.draw(screen)
 
-    # draw(): 
+    # draw():
     def draw(self, screen) -> None:
         if self.type is None or self.sprite is None:
             return
     
-        margin_xy = Board.margin_xy
-        square_pos = self.parent.getPosition()
         square_size = self.parent.size
 
-        piece_x = square_pos[0] + (square_size - self.sprite.get_width()) / 2
-        piece_y = square_pos[1] + (square_size - self.sprite.get_height()) / 2
+        piece_x = self.parent.x + (square_size - self.sprite.get_width()) / 2
+        piece_y = self.parent.y + (square_size - self.sprite.get_height()) / 2
         screen.blit(self.sprite, (piece_x, piece_y))
 
     # loadSprite(): Loads a sprite to represent this Piece
@@ -150,7 +177,7 @@ class Piece:
             return
 
         try:
-            path = f'assets/{self.color}_{self.type}.png' # Temporary
+            path = f'assets/{self.color}_{self.type}.png'
             new_sprite = pygame.image.load(path).convert_alpha()
 
             scale_size = int(self.parent.size * self.SCALE_MODIFIER)
