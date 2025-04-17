@@ -11,3 +11,5 @@
 | `9:00`    | Tuesday | 4/8/2025 | Got pieces to render and scale themselves to fit their parent Square
 | `10:00`   | Thursday| 4/10/2025| Squares now report their row & column when clicked
 | `11:00`   | Wednesday|4/16/2025| Introduced a "Camera" class and started work on defining how sprites redraw themselves
+|`12:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
+|`13:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
