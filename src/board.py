@@ -128,22 +128,28 @@ class Square:
     # select(): Select this square
     def select(self):
         if Square.current_selected == self:
-                self.unselect()
+                self.unselect() # Unselect yourself if selected twice
                 return
         
         if Square.current_selected is None:
-            Square.current_selected = self
-            print(f"Square at ({self.row} {self.col}) has been selected!")
+            if self.piece is not None:
+                Square.current_selected = self
         else:
-            swapped_piece = Square.current_selected.piece
-            Square.current_selected.piece = self.piece
-            self.piece = swapped_piece
+            moving_piece = Square.current_selected.piece
+            target_piece = self.piece
+            
+            Square.current_selected.piece = target_piece
+            self.piece = moving_piece
+
+            if moving_piece is not None:
+                moving_piece.parent = self
+            if target_piece is not None:
+                target_piece.parent = Square.current_selected
 
             Square.current_selected.draw()
             self.draw()
+
             print("A swap has occurred.")
-            print(self.piece)
-            print(Square.current_selected.piece)
             self.unselect()
 
         Board.update_display()
