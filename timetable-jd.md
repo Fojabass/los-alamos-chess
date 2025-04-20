@@ -13,3 +13,4 @@
 | `11:00`   | Wednesday|4/16/2025| Introduced a "Camera" class and started work on defining how sprites redraw themselves
 |`12:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
 |`13:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
+|`14:00`    | Saturday |4/19/2025| Updated selection logic so pieces can now be swapped when clicking two
