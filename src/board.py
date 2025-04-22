@@ -42,7 +42,7 @@ class Board:
     def draw(self, camera) -> None:
         for row in range(len(self.squares)):
             for col in range(len(self.squares[row])):
-                self.squares[row][col].draw(camera.getX(), camera.getY())
+                self.squares[row][col].draw(camera.getScreen(), camera.getX(), camera.getY())
 
     # getSquareAt(): Get a reference to the square underneath the current mouse_pos
     #                TODO: Change the way this is calculated now that Squares have (x,y) coords
@@ -93,17 +93,15 @@ class Square:
         self.piece: Optional[Piece] = None
         
         self.updatePosition()
-        self.draw()
         
     # draw(): Draws a square to the screen at the specified coordinates
-    def draw(self, cam_x = 0, cam_y = 0) -> None:
-        screen = pygame.display.get_surface()
+    def draw(self, screen, cam_x = 0, cam_y = 0) -> None:
         offset_x = self.x + cam_x
         offset_y = self.y + cam_y
 
         pygame.draw.rect(screen, self.color, (offset_x, offset_y, self.size, self.size))
         if self.piece is not None:
-            self.piece.draw(screen)
+            self.piece.draw(screen, cam_x, cam_y)
 
     # setPiece()
     def setPiece(self, piece: Optional["Piece"]) -> None:
@@ -128,23 +126,37 @@ class Square:
         if Square.current_selected is None:
             if self.piece is not None:
                 Square.current_selected = self
-        else:
-            moving_piece = Square.current_selected.piece
-            target_piece = self.piece
+                return
             
-            Square.current_selected.piece = target_piece
-            self.piece = moving_piece
+        from_piece = Square.current_selected.piece
+        to_piece = self.piece
 
-            if moving_piece is not None:
-                moving_piece.parent = self
-            if target_piece is not None:
-                target_piece.parent = Square.current_selected
+        # TODO: Preferably clean this up at some point, it's a bit boilerplate right now
+        if from_piece is not None and to_piece is not None:
+            if from_piece.color != to_piece.color:
+                # Capture to_piece with from_piece
+                self.piece = from_piece
+                from_piece.parent = self
+                Square.current_selected.piece = None
+            else:
+                # Swap with same-color piece
+                Square.current_selected.piece = to_piece
+                self.piece = from_piece
 
-            Square.current_selected.draw()
-            self.draw()
+                from_piece.parent = self
+                to_piece.parent = Square.current_selected
 
-            print("A swap has occurred.")
-            self.unselect()
+        else:
+            # Swap with an empty square
+            Square.current_selected.piece = to_piece
+            self.piece = from_piece
+
+            if from_piece is not None:
+                from_piece.parent = self
+            if to_piece is not None:
+                to_piece.parent = Square.current_selected
+
+        self.unselect()
 
     # unselect(): Unselect this square
     def unselect(self):
@@ -164,7 +176,7 @@ class Piece:
         self.draw(screen)
 
     # draw():
-    def draw(self, screen) -> None:
+    def draw(self, screen, cam_x = 0, cam_y = 0) -> None:
         if self.type is None or self.sprite is None:
             return
     
@@ -172,7 +184,11 @@ class Piece:
 
         piece_x = self.parent.x + (square_size - self.sprite.get_width()) / 2
         piece_y = self.parent.y + (square_size - self.sprite.get_height()) / 2
-        screen.blit(self.sprite, (piece_x, piece_y))
+
+        offset_x = piece_x + cam_x
+        offset_y = piece_y + cam_y
+
+        screen.blit(self.sprite, (offset_x, offset_y))
 
     # loadSprite(): Loads a sprite to represent this Piece
     def loadSprite(self) -> None:

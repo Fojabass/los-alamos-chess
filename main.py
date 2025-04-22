@@ -18,6 +18,9 @@ def main():
     pygame.display.set_caption("Los Alamos Chess")
     camera = Camera(screen)
     board = Board(screen, camera)
+
+    camera.position[0] = (SCREEN_WIDTH / 2) - (board.board_size / 2)
+    camera.position[1] = (SCREEN_HEIGHT / 2) - (board.board_size / 2)
     
     while running:
         screen.fill((0, 0, 0)) # Clear the last frame
