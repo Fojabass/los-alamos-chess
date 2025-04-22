@@ -120,13 +120,17 @@ class Square:
     # select(): Select this square
     def select(self):
         if Square.current_selected == self:
-                self.unselect() # Unselect yourself if selected twice
-                return
+            self.unselect() # Unselect yourself if selected twice
+            return
         
         if Square.current_selected is None:
             if self.piece is not None:
                 Square.current_selected = self
-                return
+            return
+        
+        if Square.current_selected.piece is None:
+            self.unselect()
+            return
             
         from_piece = Square.current_selected.piece
         to_piece = self.piece
