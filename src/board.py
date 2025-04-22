@@ -12,30 +12,22 @@ class Board:
     BLACK: Tuple[int, int, int] = (181, 136, 99)
 
     screen_xy: Tuple[int, int] = (0, 0)
-    margin_xy: Tuple[float, float] = (0, 0)
 
     # __init__(): Constructor, sets up board info using the passed screen
-    def __init__(self, screen) -> None:
-        self.screen = screen # Temporary
-        self.updateScreenInfo(screen)
+    def __init__(self, screen, camera) -> None:
+        self.screen = screen
+        self.camera = camera
         self.squares: List[List[Square]] = []
-        self.draw()
 
-    # updateScreenInfo(): Update the screen size and margins
-    def updateScreenInfo(self, screen) -> None:
-        screen_width = screen.get_width()
-        screen_height = screen.get_height()
-
-        self.board_size: float = min(screen_width, screen_height) * self.SCALE_MODIFIER
+        self.board_size: float = min(self.camera.getWidth(), self.camera.getHeight()) * self.SCALE_MODIFIER
         self.square_size: float = self.board_size / 6
-        margin_x: float = (screen_width - self.board_size) / 2
-        margin_y: float = (screen_height - self.board_size) / 2
+        Board.screen_xy = (self.camera.getWidth(), self.camera.getHeight())
 
-        Board.screen_xy = (screen_width, screen_height)
-        Board.margin_xy = (margin_x, margin_y)
+        self.initSquares()
+        self.draw(camera)
 
-    # draw(): Determines where to place squares, and then creates them.
-    def draw(self) -> None:
+    # initialize_board():
+    def initSquares(self) -> None:
         for row in range(DIMENSIONS):
             square_row: List[Square] = []
             for col in range(DIMENSIONS):
@@ -46,17 +38,17 @@ class Board:
                 square_row.append(new_square)
         
             self.squares.append(square_row)
-            Board.update_display()
 
-    # update_display(): Refreshes the display to show changes
-    def update_display() -> None:
-        pygame.display.flip()
+    def draw(self, camera) -> None:
+        for row in range(len(self.squares)):
+            for col in range(len(self.squares[row])):
+                self.squares[row][col].draw(camera.getX(), camera.getY())
 
     # getSquareAt(): Get a reference to the square underneath the current mouse_pos
     #                TODO: Change the way this is calculated now that Squares have (x,y) coords
     def getSquareAt(self, mouse_pos_xy: Tuple[float, float]) -> 'Square':
-        row = int((mouse_pos_xy[1] - Board.margin_xy[1]) // self.square_size)
-        col = int((mouse_pos_xy[0] - Board.margin_xy[0]) // self.square_size)
+        row = int((mouse_pos_xy[1] - self.camera.getY()) // self.square_size)
+        col = int((mouse_pos_xy[0] - self.camera.getX()) // self.square_size)
 
         is_in_boundaries: bool = (0 <= row < DIMENSIONS) and (0 <= col < DIMENSIONS)
         if is_in_boundaries:
@@ -104,10 +96,12 @@ class Square:
         self.draw()
         
     # draw(): Draws a square to the screen at the specified coordinates
-    def draw(self) -> None:
+    def draw(self, cam_x = 0, cam_y = 0) -> None:
         screen = pygame.display.get_surface()
+        offset_x = self.x + cam_x
+        offset_y = self.y + cam_y
 
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
+        pygame.draw.rect(screen, self.color, (offset_x, offset_y, self.size, self.size))
         if self.piece is not None:
             self.piece.draw(screen)
 
@@ -122,8 +116,8 @@ class Square:
 
     # updatePosition(): Updates the x, y position of this square
     def updatePosition(self) -> None:
-        self.x = self.size * self.col + Board.margin_xy[0]
-        self.y = self.size * self.row + Board.margin_xy[1]
+        self.x = self.size * self.col
+        self.y = self.size * self.row
     
     # select(): Select this square
     def select(self):
@@ -151,8 +145,6 @@ class Square:
 
             print("A swap has occurred.")
             self.unselect()
-
-        Board.update_display()
 
     # unselect(): Unselect this square
     def unselect(self):

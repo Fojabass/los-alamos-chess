@@ -2,6 +2,7 @@
 # Author: Julien Devol
 
 import pygame
+from src.camera import Camera
 from src.board import Board
 
 def main():
@@ -15,10 +16,12 @@ def main():
     delta: float = 0
 
     pygame.display.set_caption("Los Alamos Chess")
-    board = Board(screen)
-    board.draw()
+    camera = Camera(screen)
+    board = Board(screen, camera)
     
     while running:
+        screen.fill((0, 0, 0)) # Clear the last frame
+
         for event in pygame.event.get():
             match(event.type):
                 case pygame.QUIT:
@@ -30,7 +33,15 @@ def main():
                     if clicked_square:
                         clicked_square.select()
 
+        keys = pygame.key.get_pressed()
+        dir_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+        dir_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+
         delta = clock.tick(60) / 1000
+        camera.move(dir_x, dir_y, delta)
+        board.draw(camera)
+
+        pygame.display.flip()
 
     pygame.quit()
 
