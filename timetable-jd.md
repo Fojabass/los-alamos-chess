@@ -14,3 +14,4 @@
 |`12:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
 |`13:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
 |`14:00`    | Saturday |4/19/2025| Updated selection logic so pieces can now be swapped when clicking two
+|`15:00`    | Monday   |4/21/2025| Began working on proper highlighted chess moves and a turn counter
