@@ -2,8 +2,8 @@
 To run the game, run ```python main.py``` in the project directory.</br>
 PyGame can be installed by running ```pip install pygame```.
 
-### Current Progress Screenshot
-![Capture](https://github.com/user-attachments/assets/77a5ac30-0182-4729-b0a7-c127c406be1d)
+### Current Progress
+![chess_gif](https://github.com/user-attachments/assets/436de210-8514-4f61-8f86-43c8fa6fdf41)
 
 ### Important Deadlines
 | Date      | Activity           | Extra Info |

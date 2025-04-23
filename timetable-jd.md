@@ -15,3 +15,6 @@
 |`13:00`    | Wednesday|4/16/2025| Meeting w/ Noelle Whidden
 |`14:00`    | Saturday |4/19/2025| Updated selection logic so pieces can now be swapped when clicking two
 |`15:00`    | Monday   |4/21/2025| Began working on proper highlighted chess moves and a turn counter
+|`16:00`    | Monday   |4/21/2025| Worked a bit more on the Camera class
+|`17:00`    | Tuesday  |4/22/2025| Got camera movement working completely
+|`18:00`    | Tuesday  |4/22/2025| Implemented piece capturing
