@@ -4,7 +4,7 @@
 import pygame
 
 class Camera:
-    SPEED: float = 200
+    SPEED: float = 300
     
     position = [0, 0]
     screen = None
@@ -16,8 +16,8 @@ class Camera:
 
     # move(): Moves the camera in the passed directions.
     def move(self, dir_x: int = 0, dir_y: int = 0, delta_time: float = 0) -> None:
-        Camera.position[0] += (dir_x * Camera.SPEED * delta_time)
-        Camera.position[1] += (dir_y * Camera.SPEED * delta_time)
+        Camera.position[0] -= (dir_x * Camera.SPEED * delta_time)
+        Camera.position[1] -= (dir_y * Camera.SPEED * delta_time)
 
     @staticmethod
     def addScreenRef(screen) -> None:
