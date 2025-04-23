@@ -5,6 +5,8 @@ import pygame
 from typing import List, Tuple, Optional
 
 DIMENSIONS: int = 6
+pygame.font.init()
+arial = pygame.font.SysFont('Arial', 30)
 
 class Board:
     SCALE_MODIFIER: float = 0.80
@@ -12,6 +14,7 @@ class Board:
     BLACK: Tuple[int, int, int] = (181, 136, 99)
 
     screen_xy: Tuple[int, int] = (0, 0)
+    turn: int = 1
 
     # __init__(): Constructor, sets up board info using the passed screen
     def __init__(self, screen, camera) -> None:
@@ -26,7 +29,7 @@ class Board:
         self.initSquares()
         self.draw(camera)
 
-    # initialize_board():
+    # initSquares(): Initializes every square's values and its position in the board
     def initSquares(self) -> None:
         for row in range(DIMENSIONS):
             square_row: List[Square] = []
@@ -39,10 +42,16 @@ class Board:
         
             self.squares.append(square_row)
 
+    # draw(): Draws the board by calling draw on each square
+    #         TODO: Preferably, in the future, render the board as a single .png.
+    #               Calling draw on every square every frame is pretty dumb.
     def draw(self, camera) -> None:
         for row in range(len(self.squares)):
             for col in range(len(self.squares[row])):
                 self.squares[row][col].draw(camera.getScreen(), camera.getX(), camera.getY())
+
+        text_surface = arial.render(f'Turn {Board.turn}', False, (255, 255, 255))
+        camera.getScreen().blit(text_surface, ((camera.getWidth() / 2), (camera.getHeight() / 24)))
 
     # getSquareAt(): Get a reference to the square underneath the current mouse_pos
     #                TODO: Change the way this is calculated now that Squares have (x,y) coords
@@ -161,11 +170,12 @@ class Square:
                 to_piece.parent = Square.current_selected
 
         self.unselect()
+        Board.turn += 1
+        print(Board.turn)
 
     # unselect(): Unselect this square
     def unselect(self):
         Square.current_selected = None
-        print(f"Square at ({self.row} {self.col}) has been unselected.")
 
 class Piece:
     SCALE_MODIFIER = 0.8
