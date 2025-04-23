@@ -18,3 +18,4 @@
 |`16:00`    | Monday   |4/21/2025| Worked a bit more on the Camera class
 |`17:00`    | Tuesday  |4/22/2025| Got camera movement working completely
 |`18:00`    | Tuesday  |4/22/2025| Implemented piece capturing
+|`19:00`    | Wednesday|4/23/2025| Introduced turns and a floating turn counter
