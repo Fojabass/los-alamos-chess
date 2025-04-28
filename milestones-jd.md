@@ -1,5 +1,5 @@
 - (8 points) <del>Correctly displays a 6x6 chess board with all pieces in their starting positions</del> <b>✓</b>
-- (4 points) The game state is properly managed, keeping track of turns and check/checkmate/stalemate conditions
+- (4 points) <del>The game state is properly managed, keeping track of turns and check/checkmate/stalemate conditions</del> <b>✓</b>
 - (10 points) The player is able to select pieces, move them, and capture opposing pieces according to Los Alamos chess rules
 - (6 points) Chess moves are correctly validated for legal/illegal moves without error
 - (12 points) A computer opponent exists that is able to evaluate the board and make legal moves
