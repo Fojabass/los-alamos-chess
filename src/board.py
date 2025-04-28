@@ -6,7 +6,7 @@ from typing import List, Tuple, Optional
 
 DIMENSIONS: int = 6
 pygame.font.init()
-arial = pygame.font.SysFont('Arial', 30)
+arial = pygame.font.SysFont('Times New Roman', 32, bold = True)
 
 class Board:
     SCALE_MODIFIER: float = 0.80
@@ -51,7 +51,11 @@ class Board:
                 self.squares[row][col].draw(camera.getScreen(), camera.getX(), camera.getY())
 
         text_surface = arial.render(f'Turn {Board.turn}', False, (255, 255, 255))
-        camera.getScreen().blit(text_surface, ((camera.getWidth() / 2), (camera.getHeight() / 24)))
+        text_rect = text_surface.get_rect()
+        text_rect.centerx = camera.getWidth() / 2
+        text_rect.top = camera.getHeight() / 24
+
+        camera.getScreen().blit(text_surface, text_rect)
 
     # getSquareAt(): Get a reference to the square underneath the current mouse_pos
     #                TODO: Change the way this is calculated now that Squares have (x,y) coords
@@ -89,7 +93,8 @@ class Board:
         square.piece = Piece(color, piece_type, self.screen, square)
 
 class Square:
-    current_selected: 'Square' = None # The currently selected piece
+    current_selected: 'Square' = None # Currently selected piece
+    highlighted: List['Square'] = [] # Currently highlighted squares
 
     # __init__(): Constructor
     def __init__(self, row: int, col: int, size, color) -> None:
@@ -99,9 +104,31 @@ class Square:
         self.row: int = row
         self.col: int = col
         self.color: Tuple[int, int, int] = color
+        self.base_color: Tuple[int, int, int] = color
+        self.highlighted_color: Tuple[int, int, int] = color
         self.piece: Optional[Piece] = None
+        self.is_highlighted: bool = False
         
         self.updatePosition()
+
+    def highlight(self):
+        self.is_highlighted = True
+        if self.piece is None:
+            self.color = (144, 238, 144)
+        else:
+            self.color = (255, 128, 128)
+
+        Square.highlighted.append(self)
+
+    def unhighlight(self):
+        self.is_highlighted = False
+        self.color = self.base_color
+
+    @staticmethod
+    def unhighlight_all(self):
+        for square in Square.highlighted:
+            square.unhighlight()
+        Square.highlighted.clear()
         
     # draw(): Draws a square to the screen at the specified coordinates
     def draw(self, screen, cam_x = 0, cam_y = 0) -> None:
@@ -218,3 +245,10 @@ class Piece:
 
         except pygame.error as err:
             print(f"Error loading image for {self.color}, {self.type}: {err}")
+
+class Pawn(Piece):
+    def getType(self) -> str:
+        return "pawn"
+    
+    def isValidMove(self, from_square: 'Square', to_square: 'Square') -> bool:
+        pass
