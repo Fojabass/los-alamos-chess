@@ -29,14 +29,13 @@ def main():
 
         time_elapsed += delta
 		
-		# Create a dynamic gradient background
+		# Moving gradient background
         for y in range(SCREEN_HEIGHT):
             wave_offset = math.sin(time_elapsed * 0.5 + y * 0.01) * 25
             blue_component = 10
             green_component = 20 + wave_offset * 0.5
             red_component = 40 + wave_offset * 0.6
 			
-			# Clamp color values
             red_component = max(0, min(255, red_component))
             green_component = max(0, min(255, green_component))
             blue_component = max(0, min(255, blue_component))
