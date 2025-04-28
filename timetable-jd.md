@@ -19,3 +19,4 @@
 |`17:00`    | Tuesday  |4/22/2025| Got camera movement working completely
 |`18:00`    | Tuesday  |4/22/2025| Implemented piece capturing
 |`19:00`    | Wednesday|4/23/2025| Introduced turns and a floating turn counter
+|`20:00`    | Sunday   |4/27/2025| Implemented a scrolling gradient background and fixed text centering on the turn counter
