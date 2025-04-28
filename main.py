@@ -2,6 +2,7 @@
 # Author: Julien Devol
 
 import pygame
+import math
 from src.camera import Camera
 from src.board import Board
 
@@ -14,6 +15,7 @@ def main():
     clock = pygame.time.Clock()
     running: bool = True
     delta: float = 0
+    time_elapsed: float = 0
 
     pygame.display.set_caption("Los Alamos Chess")
     camera = Camera(screen)
@@ -24,6 +26,23 @@ def main():
     
     while running:
         screen.fill((0, 0, 0)) # Clear the last frame
+
+        time_elapsed += delta
+		
+		# Create a dynamic gradient background
+        for y in range(SCREEN_HEIGHT):
+            wave_offset = math.sin(time_elapsed * 0.5 + y * 0.01) * 25
+            blue_component = 10
+            green_component = 20 + wave_offset * 0.5
+            red_component = 40 + wave_offset * 0.6
+			
+			# Clamp color values
+            red_component = max(0, min(255, red_component))
+            green_component = max(0, min(255, green_component))
+            blue_component = max(0, min(255, blue_component))
+			
+            color = (int(red_component), int(green_component), int(blue_component))
+            pygame.draw.line(screen, color, (0, y), (SCREEN_WIDTH, y))
 
         for event in pygame.event.get():
             match(event.type):
