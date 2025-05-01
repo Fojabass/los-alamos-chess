@@ -11,3 +11,4 @@ PyGame can be installed by running ```pip install pygame```.
 | 4/8/2025  | Progress Report #1 |
 | 4/22/2025 | Progress Report #2 |
 | 4/29/2025 | Presentation Day   | We're second to present!
+|5/6/2025   | Demo Day           |
