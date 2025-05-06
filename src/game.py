@@ -265,43 +265,44 @@ class Square:
 			Square.unhighlight_all()
 			return
 		
-		# Clear previous selection and its highlighted squares
 		if Square.current_selected is not None:
-			Square.current_selected.unselect_highlight()
-		
-		# If no square is selected yet and this square has a piece of the current player's color
-		if Square.current_selected is None:
+			# If this is a highlighted square (valid move), make the move
+			if self in Square.highlighted:
+				from_square = Square.current_selected
+				to_square = self
+				captured_piece = self.piece  # Store the potentially captured piece!
+				
+				move = Move(from_square, to_square, captured_piece)
+				board.makeMove(move)
+				
+				if captured_piece is not None and captured_piece.type == "king":
+					winner = "White" if captured_piece.color == 'b' else "Black"
+					board.endGame(winner)
+				
+				from_square.unselect_highlight()
+				self.unselect()
+				Square.unhighlight_all()
+				return
+			
+			# If this is a new piece of the SAME color, select it instead
 			if self.piece is not None and self.piece.color == current_color:
+				Square.current_selected.unselect_highlight()
+				Square.unhighlight_all()
 				Square.current_selected = self
 				self.select_highlight()
 				self.show_legal_moves(board)
-			return
-		
-		# If the selected square has no piece, unselect
-		if Square.current_selected.piece is None:
+				return
+			
+			# If this is not a valid move or same color piece, just unselect!
 			Square.current_selected.unselect_highlight()
-			self.unselect()
 			Square.unhighlight_all()
+			Square.current_selected = None
 			return
 		
-		if self not in Square.highlighted:
-			return # Not a legal move!
-		
-		# The attempted move is legal, so create and execute it
-		from_square = Square.current_selected
-		to_square = self
-		captured_piece = self.piece  # Store the potentially captured piece
-		
-		move = Move(from_square, to_square, captured_piece)
-		board.makeMove(move)
-		
-		if captured_piece is not None and captured_piece.type == "king":
-			winner = "White" if captured_piece.color == 'b' else "Black"
-			board.endGame(winner)
-		
-		from_square.unselect_highlight()
-		self.unselect()
-		Square.unhighlight_all()
+		if self.piece is not None and self.piece.color == current_color:
+			Square.current_selected = self
+			self.select_highlight()
+			self.show_legal_moves(board)
 
 	# unselect(): Unselect this square
 	def unselect(self):
