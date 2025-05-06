@@ -23,3 +23,4 @@
 |`21:00`    | Friday   |5/02/2025| Created the "Move" class to start tracking turn history
 |`22:00`    | Sunday   |5/04/2025| Constrained piece movement to legal moves, destination tiles are now highlighted
 |`23:00`    | Monday   |5/05/2025| Added win condition and selected pieces are now highlighted
+|`24:00`    | Tuesday  |5/06/2025| Pushed all changes as the final demo-day update, included a few edge cases
