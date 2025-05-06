@@ -2,7 +2,7 @@
 ### User Manual
 This game requires the PyGame library as a dependency, which can be installed by running ```pip install pygame```.</br>
 Pip package manager can be installed from the ![Python package index](https://pypi.org/project/pip/) or as a step in ![the official Python installer](https://www.python.org/downloads/windows/). </br>
-Once PyGame is installed, launching the game is as simple as running ```python main.py``` in the project directory.
+Once PyGame is installed, launching the game is as simple as running ```py main.py``` in the project directory.
 
 - Select pieces by clicking them with the left-mouse button
 - Click a selected piece to deselect it
