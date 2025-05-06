@@ -5,6 +5,7 @@ Pip package manager can be installed from the ![Python package index](https://py
 Once PyGame is installed, launching the game is as simple as running ```python main.py``` in the project directory.
 
 - Select pieces by clicking them with the left-mouse button
+- Click a selected piece to deselect it
 - Use the WASD keys to move the camera around
 - Tap the left-arrow and right-arrow keys to undo/redo turns, moving backwards/forwards through the turn history
 
