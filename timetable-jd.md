@@ -20,3 +20,6 @@
 |`18:00`    | Tuesday  |4/22/2025| Implemented piece capturing
 |`19:00`    | Wednesday|4/23/2025| Introduced turns and a floating turn counter
 |`20:00`    | Sunday   |4/27/2025| Implemented a scrolling gradient background and fixed text centering on the turn counter
+|`21:00`    | Friday   |5/02/2025| Created the "Move" class to start tracking turn history
+|`22:00`    | Sunday   |5/04/2025| Constrained piece movement to legal moves, destination tiles are now highlighted
+|`23:00`    | Monday   |5/05/2025| Added win condition and selected pieces are now highlighted
