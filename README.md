@@ -1,14 +1,12 @@
 # Los Alamos Chess
-To run the game, run ```python main.py``` in the project directory.</br>
-PyGame can be installed by running ```pip install pygame```.
+### User Manual
+This game requires the PyGame library as a dependency, which can be installed by running ```pip install pygame```.</br>
+Once that's installed, launching it is as simple as running ```python main.py``` in the project directory.
 
-### Current Progress
-![example](https://github.com/user-attachments/assets/5975b481-3c7f-47de-9559-956a9be36dc1)
+- Select pieces by clicking them with the left-mouse button
+- Use the WASD keys to move the camera around
+- Tap the left-arrow and right-arrow keys to undo/redo turns
 
-### Important Deadlines
-| Date      | Activity           | Extra Info |
-|:----------|:-------------------|:-----------|
-| 4/8/2025  | Progress Report #1 |
-| 4/22/2025 | Progress Report #2 |
-| 4/29/2025 | Presentation Day   | We're second to present!
-|5/6/2025   | Demo Day           |
+### Final Result
+![final_update](https://github.com/user-attachments/assets/1b8813d4-c079-4764-9a84-1016497a46ee)
+![win](https://github.com/user-attachments/assets/caa8e0bd-8109-442b-8bbb-85ba6b83124e)
