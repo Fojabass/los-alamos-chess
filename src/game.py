@@ -225,11 +225,8 @@ class Square:
 
 		pygame.draw.rect(screen, self.color, (offset_x, offset_y, self.size, self.size))
 		
-		# If this square is both empty and highlighted, draw a circle at the center
+		# If this square is highlighted, draw a circle at the center
 		if self.is_highlighted:
-			if self.piece is not None:
-				return
-			
 			circle_radius = self.size * 0.15
 			circle_x = offset_x + self.size / 2
 			circle_y = offset_y + self.size / 2
