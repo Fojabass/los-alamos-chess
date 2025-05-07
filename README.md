@@ -12,4 +12,3 @@ Pip package manager can be installed from the ![Python package index](https://py
 
 ### Final Result
 ![game_screenshot_1](https://github.com/user-attachments/assets/49780335-4bec-4461-91bc-fe5917e40cd3)
-![game_screenshot_2](https://github.com/user-attachments/assets/658a7890-5545-4878-805e-3d289b774de5)
