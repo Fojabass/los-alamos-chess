@@ -2,7 +2,18 @@
 # Author: Julien Devol
 
 import pygame
+import os
+import sys
 from typing import List, Tuple, Optional
+
+# resource_path(): Used to determine resource paths when using PyInstaller
+def resource_path(relative_path):
+	try:
+		base_path = sys._MEIPASS
+	except Exception:
+		base_path = os.path.abspath(".")
+
+	return os.path.join(base_path, relative_path)
 
 DIMENSIONS: int = 6
 pygame.font.init()
@@ -358,7 +369,7 @@ class Piece:
 
 		try:
 			path = f'assets/{self.color}_{self.type}.png'
-			new_sprite = pygame.image.load(path).convert_alpha()
+			new_sprite = pygame.image.load(resource_path(path)).convert_alpha()
 
 			scale_size = int(self.parent.size * self.SCALE_MODIFIER)
 			self.sprite = pygame.transform.scale(new_sprite, (scale_size, scale_size))
@@ -445,7 +456,6 @@ class Pawn(Piece):
 		
 		return moves
 
-
 class Rook(Piece):
 	# get_moves(): Returns all legal moves for this rook.
 	def get_moves(self, square: 'Square', board: List[List['Square']]) -> List['Square']:
@@ -467,7 +477,6 @@ class Rook(Piece):
 		
 		return moves
 
-
 class Knight(Piece):
 	# get_moves(): Returns all legal moves for this knight.
 	def get_moves(self, square: 'Square', board: List[List['Square']]) -> List['Square']:
@@ -486,7 +495,6 @@ class Knight(Piece):
 					moves.append(target_square)
 		
 		return moves
-
 
 class Queen(Piece):
 	# get_moves(): Returns all legal moves for this queen.
@@ -510,7 +518,6 @@ class Queen(Piece):
 				c += dc
 		
 		return moves
-
 
 class King(Piece):
 	# get_moves(): Returns all legal moves for this king.
