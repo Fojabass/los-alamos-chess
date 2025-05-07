@@ -8,7 +8,8 @@ Pip package manager can be installed from the ![Python package index](https://py
 - Click a selected piece to deselect it
 - Use the WASD keys to move the camera around
 - Tap the left-arrow and right-arrow keys to undo/redo turns, moving backwards/forwards through the turn history
+- Capture the opposing King to win the game!
 
 ### Final Result
-![final_update](https://github.com/user-attachments/assets/1b8813d4-c079-4764-9a84-1016497a46ee)
-![win](https://github.com/user-attachments/assets/caa8e0bd-8109-442b-8bbb-85ba6b83124e)
+![game_screenshot_1](https://github.com/user-attachments/assets/49780335-4bec-4461-91bc-fe5917e40cd3)
+![game_screenshot_2](https://github.com/user-attachments/assets/658a7890-5545-4878-805e-3d289b774de5)
