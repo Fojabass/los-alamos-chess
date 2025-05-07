@@ -183,14 +183,13 @@ class Square:
 	# highlight(): Highlight this square as a potential move
 	def highlight(self):
 		self.is_highlighted = True
-		# Change the square's background color slightly
+		r, g, b = self.base_color
+
 		if self.piece is None:
-			# For empty squares - light green tint
-			r, g, b = self.base_color
+			# For empty squares; a light green tint
 			self.color = (r * 0.8 + 50, g * 0.8 + 50, b * 0.8)
 		else:
-			# For capture squares - light red tint
-			r, g, b = self.base_color
+			# For capturable squares; a light red tint
 			self.color = (r * 0.8 + 50, g * 0.8, b * 0.8)
 
 		Square.highlighted.append(self)
@@ -226,17 +225,16 @@ class Square:
 
 		pygame.draw.rect(screen, self.color, (offset_x, offset_y, self.size, self.size))
 		
-		# If this square is highlighted, draw a circle at the center
+		# If this square is both empty and highlighted, draw a circle at the center
 		if self.is_highlighted:
+			if self.piece is not None:
+				return
+			
 			circle_radius = self.size * 0.15
 			circle_x = offset_x + self.size / 2
 			circle_y = offset_y + self.size / 2
 			
-			if self.piece is None:
-				circle_color = (50, 150, 50)  # Darker green circle for empty squares
-			else:
-				circle_color = (150, 50, 50)  # Darker red circle for capturable squares
-				
+			circle_color = (50, 150, 50)  # Dark green
 			pygame.draw.circle(screen, circle_color, (circle_x, circle_y), circle_radius)
 		
 		# If this is the selected square, draw a thicker border!
@@ -377,11 +375,11 @@ class Piece:
 		except pygame.error as err:
 			print(f"Error loading image for {self.color}, {self.type}: {err}")
 			
-	# get_moves(): Base method to be overridden by each piece type
+	# get_moves(): Base method to be overridden by each piece type;
 	def get_moves(self, square: 'Square', board: List[List['Square']]) -> List['Square']:
 		return []  # Base class returns no moves by default
 		
-	# createPiece(): Factory method to create the appropriate piece type
+	# createPiece(): Factory method to create the appropriate piece type.
 	@staticmethod
 	def createPiece(color: str, piece_type: str, screen, square: 'Square') -> 'Piece':
 		if piece_type == "pawn":
@@ -439,7 +437,7 @@ class Pawn(Piece):
 	# get_moves(): Returns all legal moves for this pawn.
 	def get_moves(self, square: 'Square', board: List[List['Square']]) -> List['Square']:
 		moves = []
-		direction = -1 if self.color == 'w' else 1  # White moves up, black moves down
+		direction = -1 if self.color == 'w' else 1  # White can only move up, black can only move down
 		
 		# Forward move
 		if 0 <= square.row + direction < DIMENSIONS:
@@ -471,7 +469,8 @@ class Rook(Piece):
 				else:
 					if target_square.piece.color != self.color:
 						moves.append(target_square)
-					break  # Stop in this direction after encountering a piece
+					break  # Stop in this direction after encountering a piece.
+
 				r += dr
 				c += dc
 		
@@ -513,7 +512,8 @@ class Queen(Piece):
 				else:
 					if target_square.piece.color != self.color:
 						moves.append(target_square)
-					break  # Stop in this direction after encountering a piece
+					break  # Stop in this direction after encountering a piece.
+				
 				r += dr
 				c += dc
 		
