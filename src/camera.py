@@ -7,6 +7,7 @@ class Camera:
     SPEED: float = 300
     position_xy = [0, 0]
 
+    # __init__(): Constructor
     def __init__(self, screen) -> None:
         Camera.screen = screen
         Camera.position_xy[0] = Camera.getWidth() / 2
@@ -17,22 +18,27 @@ class Camera:
         Camera.position_xy[0] -= (dir_x * Camera.SPEED * delta_time)
         Camera.position_xy[1] -= (dir_y * Camera.SPEED * delta_time)
 
+    # getScreen(): Returns the current screen.
     @staticmethod
     def getScreen():
         return Camera.screen
 
+    # getWidth(): Returns the width of the current screen.
     @staticmethod
     def getWidth():
         return Camera.screen.get_width()
     
+    # getHeight(): Returns the height of the current screen.
     @staticmethod
     def getHeight():
         return Camera.screen.get_height()
     
+    # getX(): Returns the current x-coordinate of the camera.
     @staticmethod
     def getX():
         return Camera.position_xy[0]
     
+    # getY(): Returns the current y-coordinate of the camera.
     @staticmethod
     def getY():
         return Camera.position_xy[1]
